@@ -1,0 +1,26 @@
+# ASIM
+ASIM
+<?php
+// إعدادات الربط مع المورد (SMM API)
+define('API_URL', 'https://api-smm-provider.com/v2'); // رابط الـ API الخاص بالمورد
+define('API_KEY', 'YOUR_API_KEY_HERE'); // مفتاح المورد الخاص بك
+
+function placeOrder($service_id, $link, $quantity) {
+    $data = [
+        'key' => API_KEY,
+        'action' => 'add',
+        'service' => $service_id,
+        'link' => $link,
+        'quantity' => $quantity
+    ];
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, API_URL);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    return json_decode($response, true);
+}
